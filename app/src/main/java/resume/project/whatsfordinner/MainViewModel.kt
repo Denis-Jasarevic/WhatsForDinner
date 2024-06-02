@@ -72,6 +72,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun fetchMealsForCategory(category: Category) {
+        _mealsState.value = MealState(loading = true)
         viewModelScope.launch {
             try {
                 val mealsResponse = recipeService.getMealsByCategory(category.strCategory)
@@ -110,6 +111,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun fetchMealDetails(idMeal: String) {
+        _mealDetailState.value = MealDetailState(loading = true)
         viewModelScope.launch {
             try {
                 val mealDetailsResponse = recipeService.getMealDetailsById(idMeal)
@@ -162,7 +164,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                     _favoriteMeals.value = meals
                 }
             } catch (e: Exception) {
-                // Handle any error while adding to favorites
+                error("Error adding to favorites: ${e.message}")
             }
         }
     }
@@ -175,7 +177,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                     _favoriteMeals.value = meals
                 }
             } catch (e: Exception) {
-                // Handle any error while removing from favorites
+                error("Error removing from favorites: ${e.message}")
             }
         }
     }
@@ -218,8 +220,4 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     val currentScreen: MutableState<Screen>
         get() = _currentScreen
-
-    fun setCurrentScreen(screen: Screen){
-        _currentScreen.value = screen
-    }
 }
