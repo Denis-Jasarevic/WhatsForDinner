@@ -1,5 +1,6 @@
 package resume.project.whatsfordinner.ui.theme
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -20,9 +21,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.Flow
 import resume.project.whatsfordinner.data.FavoriteMeal
 
@@ -38,7 +41,14 @@ fun FavoritesView(
 
     Box(modifier = modifier.fillMaxSize()) {
         if (meals.isEmpty()) {
-            Text("No favorite meals found", modifier = Modifier.align(Alignment.Center))
+            Text(
+                text = "Add some favorites to get started.",
+                modifier = Modifier
+                    .align(Alignment.Center),
+                fontFamily = Swansea,
+                fontSize = 20.sp,
+                color = dark_green
+                )
         } else {
             FavoriteScreen(
                 meals = meals.sortedBy { it.strMeal },
@@ -57,7 +67,11 @@ fun FavoriteScreen(
     fetchMealDetails: (String) -> Unit,
     removeFromFavorites: (FavoriteMeal) -> Unit
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize()) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(creamy_white)
+    ) {
         items(meals) { meal ->
             FavoriteMealItem(
                 meal = meal,
@@ -76,6 +90,7 @@ fun FavoriteMealItem(
     fetchMealDetails: (String) -> Unit,
     removeFromFavorites: (FavoriteMeal) -> Unit
 ) {
+
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -84,24 +99,32 @@ fun FavoriteMealItem(
                 navigateToDetail(meal.idMeal)
                 fetchMealDetails(meal.idMeal)
             },
-        backgroundColor = soft_pale_red,
-        elevation = 4.dp,
+        backgroundColor = Color.White,
+        elevation = 2.dp,
         shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Text(
                 text = meal.strMeal,
-                color = creamy_white,
-                style = TextStyle(fontWeight = FontWeight.Bold),
+                color = dark_green,
+                fontFamily = Swansea,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
                 modifier = Modifier.weight(1f)
             )
             IconButton(
                 onClick = { removeFromFavorites(meal) },
             ) {
-                Icon(Icons.Default.Delete, contentDescription = "Remove from Favorites", tint = soft_pale_red_darker)
+                Icon(
+                    Icons.Default.Delete,
+                    contentDescription = "Remove from Favorites",
+                    tint = dark_green
+                )
             }
         }
     }

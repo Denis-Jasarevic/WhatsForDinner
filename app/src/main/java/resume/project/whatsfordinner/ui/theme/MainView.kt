@@ -89,9 +89,9 @@ fun MainView(){
         if (currentScreen is Screen.BottomScreen.Home) {
             BottomNavigation(
                 Modifier.wrapContentSize(),
-                backgroundColor = soft_pale_red) {
+                backgroundColor = creamy_white) {
                 screensInBottom.forEach { item ->
-                    val tint = if (currentRoute == item.bRoute) creamy_white else soft_pale_red_darker
+                    val tint = if (currentRoute == item.bRoute) hunter_green else dark_green
                     BottomNavigationItem(
                         selected = currentRoute == item.bRoute,
                         onClick = {
@@ -106,8 +106,8 @@ fun MainView(){
                             )
                         },
                         label = { Text(text = item.bTitle, color = tint) },
-                        selectedContentColor = creamy_white,
-                        unselectedContentColor = soft_pale_red_darker
+                        selectedContentColor = soft_pale_red_darker,
+                        unselectedContentColor = soft_pale_red
                     )
                 }
             }
@@ -122,27 +122,7 @@ fun MainView(){
         }) {
         Scaffold(
             bottomBar = bottomBar,
-            topBar = {
-                TopAppBar(
-                    backgroundColor = soft_pale_red,
-                    title = { Text(title.value, color = creamy_white) },
-                    actions = {
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    if (modalSheetState.isVisible) modalSheetState.hide()
-                                    else modalSheetState.show()
-                                }
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.MoreVert,
-                                contentDescription = "Settings and More"
-                            )
-                        }
-                    },
-                )
-            }, scaffoldState = scaffoldState,
+            scaffoldState = scaffoldState,
         ) {
             Navigation(navController = controller, viewModel = viewModel, pd = it)
         }

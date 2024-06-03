@@ -21,10 +21,12 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import resume.project.whatsfordinner.Category
 import resume.project.whatsfordinner.MainViewModel
@@ -61,7 +63,12 @@ fun HomeScreen(
     navigateToMeal: (Category) -> Unit,
     fetchMealsForCategory: (Category) -> Unit
 ) {
-    LazyVerticalGrid(GridCells.Fixed(2), modifier = Modifier.fillMaxSize()) {
+    LazyVerticalGrid(
+        GridCells.Fixed(2),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(creamy_white)
+    ) {
         items(categoriesWithMeals) { categoryWithMeals ->
             CategoryItem(
                 category = categoryWithMeals.category,
@@ -80,40 +87,39 @@ fun CategoryItem(
 ) {
     Card(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(16.dp)
             .clickable {
                 navigateToMeal(category)
                 fetchMealsForCategory(category)
             },
-        elevation = 4.dp,
+        elevation = 2.dp,
         shape = RoundedCornerShape(8.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(creamy_white)
+                .background(Color.White)
         ) {
             Column(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .border(BorderStroke(2.dp, soft_pale_red), shape = RoundedCornerShape(8.dp))
-                    .padding(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
                     painter = rememberAsyncImagePainter(category.strCategoryThumb),
-                    contentDescription = null,
+                    contentDescription = category.strCategory,
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(8.dp)
                         .aspectRatio(1f)
                 )
                 Text(
                     text = category.strCategory,
-                    color = soft_pale_red,
-                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    color = dark_green,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = Swansea,
+                    fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .padding(vertical = 4.dp, horizontal = 16.dp)
+                        .padding(vertical = 8.dp, horizontal = 16.dp)
                         .align(Alignment.CenterHorizontally)
                 )
             }
